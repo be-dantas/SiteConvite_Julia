@@ -23,16 +23,22 @@
 html,body{ margin:0; min-height:100%; -webkit-text-size-adjust:100%; background:#000; color:var(--fg); }
 body{ font-family:"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
 
-/* ===== HERO (banner) ===== */
+/* ===== HERO (banner) — mostrar 100% da ALTURA da imagem; cortar só nas laterais ===== */
 .hero{
   position: relative;
-  background: url('../assets/banner.jpg') center/cover no-repeat;
+
+  /* separa as propriedades pra ficar claro o comportamento */
+  background-image: url('../assets/banner_1.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: auto 100%;   /* ← preenche a ALTURA do container; lados podem cortar */
+
   height: clamp(420px, 62vh, 560px);
 }
-.hero::after{
+/* .hero::after{
   content:""; position:absolute; inset:0;
   background: linear-gradient(180deg, rgba(0,0,0,.0) 30%, rgba(0,0,0,.65) 100%);
-}
+} */
 .titlebox{ position:absolute; top:18px; right:16px; text-align:right; color:#fff; }
 .titlebox .t1{
   font-family:"Bebas Neue",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
