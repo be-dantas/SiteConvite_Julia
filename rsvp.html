@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Confirmar Presença</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+  <div class="wrap">
+    <section class="flex" aria-label="Confirmação de presença">
+      <div class="art"><img src="assets/cartas.png" alt=""></div>
+
+      <div class="card">
+        <h2>Confirmar Presença até 30/09</h2>
+
+        <form id="rsvpForm" novalidate>
+          <div class="measure">
+            <label for="name">Nome e Sobrenome</label>
+            <input id="name" name="name" type="text" placeholder="Ex.: Ana Catarina" required />
+          </div>
+
+          <label style="margin-top:12px;">Você vai comparecer?</label>
+          <div class="row" role="radiogroup" aria-label="Você vai comparecer?">
+            <label class="opt"><input type="radio" name="answer" value="Sim" required /> <span>Sim</span></label>
+            <label class="opt"><input type="radio" name="answer" value="Não" required /> <span>Não</span></label>
+          </div>
+
+          <button id="submitBtn" type="submit">Enviar</button>
+          <div id="message" class="msg measure" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    import { initRsvp } from './js/rsvp.js';
+    initRsvp('rsvpForm', 'message', 'submitBtn');
+  </script>
+</body>
+</html>

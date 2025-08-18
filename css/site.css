@@ -1,0 +1,198 @@
+:root{
+  --red:#ff0404;             /* botões + rótulos do contador */
+  --fg:#ffffff;              /* texto principal no tema escuro */
+  --muted:#d1d5db;
+
+  --ok-fg:#18a900;           /* verde sucesso */
+  --ok-bd:rgba(24,169,0,.45);
+  --ok-bg:rgba(24,169,0,.12);
+
+  --er-fg:#ff0404;           /* vermelho erro */
+  --er-bd:rgba(255,4,4,.45);
+  --er-bg:rgba(255,4,4,.12);
+
+  --measure:46ch;            /* largura do campo e da mensagem */
+
+  /* contador (base mobile/tablet) */
+  --tile-w:88px; --tile-h:90px;
+  --scale:1.02;
+  --inner-gap:10px;
+}
+
+* { box-sizing: border-box; }
+html,body{ margin:0; min-height:100%; -webkit-text-size-adjust:100%; background:#000; color:var(--fg); }
+body{ font-family:"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+
+/* ===== HERO (banner) ===== */
+.hero{
+  position: relative;
+  background: url('../assets/banner.jpg') center/cover no-repeat;
+  height: clamp(420px, 62vh, 560px);
+}
+.hero::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.0) 30%, rgba(0,0,0,.65) 100%);
+}
+.titlebox{ position:absolute; top:18px; right:16px; text-align:right; color:#fff; }
+.titlebox .t1{
+  font-family:"Bebas Neue",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-weight:700; letter-spacing:.5px; margin:0; font-size:clamp(1.8rem,3.6vw + .4rem,3rem);
+  text-shadow:0 2px 8px rgba(0,0,0,.6);
+}
+.titlebox .t2{ margin:.2rem 0 0; font-weight:400; text-shadow:0 2px 6px rgba(0,0,0,.5); }
+
+/* ===== WRAP ===== */
+.wrap{ max-width:1100px; margin:0 auto; padding: 18px 16px; }
+
+/* ===== CONTADOR (bloco único escuro) ===== */
+.counter{
+  display:flex; justify-content:center;
+  padding:12px 12px;
+  background:transparent;
+  width:max-content; max-width:100%; margin:10px auto 0;
+  overflow-x:hidden; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+}
+.board{
+  --tw: calc(var(--tile-w) * var(--scale));
+  --th: calc(var(--tile-h) * var(--scale));
+  display:flex; gap: var(--inner-gap);
+  flex-wrap: nowrap;            /* 1 linha sempre */
+  justify-content:center; align-items:flex-start;
+}
+.col{ width:var(--tw); text-align:center; flex:0 0 var(--tw); }
+
+/* bloco com borda branca e metade inferior “lavada” */
+.tile{
+  position:relative; width:100%; height:var(--th);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.9);          /* borda branca fina */
+  background:linear-gradient(180deg,#141414 0%, #1f1f1f 100%);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+/* linha de divisão ao meio */
+.tile::after{
+  content:""; position:absolute; left:10px; right:10px; top:50%;
+  height:1px; background:rgba(255,255,255,.28); transform:translateY(-.5px);
+}
+/* metade inferior com transparência branca p/ efeito split */
+.tile::before{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:50%;
+  background:rgba(255,255,255,.10); border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+  pointer-events:none;
+}
+
+/* dígitos brancos no tema escuro */
+.num{
+  font-family:"Bebas Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight:700; font-size: calc(3.1rem * var(--scale)); line-height:1;
+  color:#ffffff; letter-spacing: calc(1px * var(--scale)); transform: translateY(-1px);
+  font-variant-numeric: tabular-nums; user-select:none;
+}
+
+/* rótulos em vermelho */
+.label{
+  margin-top: calc(8px * var(--scale));
+  font-size: calc(.72rem * var(--scale));
+  font-weight:800; color:var(--red); letter-spacing:.7px;
+}
+.count-note{ display:none; margin:10px 2px 0; color:var(--red); font-weight:700; text-align:center; }
+
+/* contador MAIOR no desktop */
+@media (min-width:1024px){
+  :root{ --scale:1.32; --inner-gap:12px; }
+}
+
+/* ajustes finos p/ caber sem corte nem scroll */
+@media (max-width:480px){
+  :root{ --scale:0.95; --inner-gap:9px; }
+}
+@media (max-width:430px){
+  :root{ --scale:0.90; --inner-gap:8px; }
+}
+@media (max-width:380px){
+  :root{ --scale:0.82; --inner-gap:6px; }
+  .counter{ padding:8px; }
+}
+@media (max-width:340px){
+  :root{ --scale:0.78; --inner-gap:6px; }
+  .wrap{ padding:16px 12px; }
+  .counter{ padding:6px; }
+}
+
+/* ===== ABAS (textos retráteis) ===== */
+/* agora o título “INFORMAÇÕES” também branco */
+.info-title { color:#ffffff !important; }
+
+details{ border-bottom:1px solid rgba(255,255,255,.18); padding-bottom:10px; }
+summary{
+  list-style:none; cursor:pointer; color:#ffffff; font-weight:700; letter-spacing:.2px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+summary::after{ content:"▾"; color:#bbb; }
+details[open] summary::after{ content:"▴"; }
+details p{ color:#ffffff; margin:8px 0 0; }
+
+/* ===== BLOCO INFORMAÇÕES + FORM: centralizados + mais respiro ===== */
+#rsvp{ padding: 56px 0 64px; }
+.flex{
+  display:grid; gap:28px; align-items:start;
+  grid-template-columns: minmax(280px, 420px) minmax(320px, 460px);
+  max-width: 980px; margin: 0 auto; justify-content:center;
+}
+@media (max-width: 900px){
+  #rsvp{ padding: 36px 0 44px; }
+  .flex{ grid-template-columns: 1fr; max-width: 620px; }
+}
+
+/* Título do formulário com o mesmo estilo do resumo */
+.card h2{ margin:0 0 6px; }
+.info-like{
+  color:#ffffff;
+  font-weight:700;
+  font-size:1rem;
+  letter-spacing:.2px;
+  text-transform:uppercase;
+}
+
+/* ===== FORM ===== */
+label{ display:block; margin: 10px 0 6px; color:#ffffff; }
+.measure{ max-width:var(--measure); }
+
+/* campo com branco translúcido */
+input[type="text"]{
+  width:100%; padding:12px 14px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:10px;
+  background: rgba(255,255,255,.10);
+  color:#ffffff; outline:none;
+}
+input[type="text"]::placeholder{ color: rgba(255,255,255,.65); }
+input[type="text"]:focus{
+  border-color: rgba(255,255,255,.75);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12);
+}
+
+.row{ display:flex; gap:18px; margin:8px 0 6px; flex-wrap:wrap; }
+.opt{ display:flex; align-items:center; gap:8px; color:#ffffff; }
+
+/* botão vermelho #ff0404 */
+button{
+  margin-top:12px; padding:12px 16px; border:0; border-radius:10px;
+  background:var(--red); color:#fff; font-weight:800; cursor:pointer;
+}
+button:hover{ filter:brightness(.93); }
+button:disabled{ opacity:.7; cursor:not-allowed; }
+
+/* mensagens (cores novas) — mesma largura do campo */
+.msg{ margin-top:12px; padding:10px; border-radius:10px; font-weight:700; display:none; }
+.ok{ background:var(--ok-bg); color:var(--ok-fg); border:1px solid var(--ok-bd); }
+.err{ background:var(--er-bg); color:var(--er-fg); border:1px solid var(--er-bd); }
+
+/* ===== MAPA ===== */
+.map{
+  margin-top:18px; border-radius:14px; overflow:hidden;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 6px 16px rgba(0,0,0,.35);
+}
+.map iframe{ display:block; width:100%; height:360px; border:0; }
