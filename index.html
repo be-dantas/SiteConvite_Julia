@@ -24,6 +24,7 @@
   <div class="wrap">
     <!-- CONTADOR: bloco único com espaçamento menor -->
     <section id="contador">
+    <h2 class="count-title">Contagem regressiva:</h2>
       <div class="counter">
         <div class="board" aria-label="Contagem regressiva">
           <div class="col"><div class="tile"><div id="mm" class="num">00</div></div><div class="label">MESES</div></div>
@@ -40,32 +41,36 @@
     <section id="rsvp" class="flex" aria-label="Informações e confirmação de presença">
       <!-- Coluna ESQUERDA: INFORMAÇÕES -->
       <div>
-        <details>
+        <details open>
           <summary><span class="info-title">INFORMAÇÕES</span></summary>
           <p>
-            Uma noite de pura diversão, brilho e apostas de sorte! Você está convidado para comemorar meu aniversário
-            em grande estilo, no clima vibrante de Las Vegas. Prepare-se para roleta, cartas e muitas surpresas inesquecíveis!
-            <br><br>
-            <b>QUANDO? ONDE?</b><br><br>
-            Dia 01/11 às 19h.<br>
-            Av. Conselheiro Nébias, 365<br>
-            Vila Matias, Santos - SP, Brasil
-            <br><br>
-            <b>O QUE VESTIR?</b><br><br>
-            Dress code: Esporte fino. Elegância sem formalidade total. Blazer/camisa e calça social ou
-            vestido midi/conjunto; sapatos elegantes; evite jeans, tênis esportivo e camisetas.
+          Você está convidado(a) para comemorar meu aniversário em grande estilo, no clima vibrante de Las Vegas. Prepare-se para uma noite inesquecível com muita música, roleta, cartas, jogos e diversão para todas as idades! Mas lembre-se: “O que acontece em Vegas, fica em Vegas...” 🤭
+          <br><br>
+          QUANDO?
+          <br>
+          01 de novembro | Sábado | 19:00
+          <br><br>
+          ONDE?
+          <br>
+          Av. Conselheiro Nébias, 365
+          <br>
+          Vila Matias, Santos - SP, 11015-003
+          <br><br>
+          O QUE VESTIR?
+          <br>
+          Traje: Esporte fino.
           </p>
         </details>
       </div>
 
       <!-- Coluna DIREITA: FORMULÁRIO -->
       <div class="card">
-        <h2 class="info-like">Confirmar Presença até 30/09</h2>
+        <h2 class="info-like">CONFIRME SUA PRESENÇA ATÉ DIA 30/09</h2>
 
         <form id="rsvpForm" novalidate>
           <div class="measure">
-            <label for="name">Nome igual do convite</label>
-            <input id="name" name="name" type="text" placeholder="Ex.: Ana Catarina" required />
+            <label for="name">Nome (como consta no convite):</label>
+            <input id="name" name="name" type="text" placeholder="Ex: Julia Ribeiro" required />
           </div>
 
           <label style="margin-top:12px;">Você vai comparecer?</label>
