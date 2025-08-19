@@ -23,7 +23,7 @@ export function initRsvp(formId, messageId, buttonId){
     const answer = form.querySelector('input[name="answer"]:checked')?.value || '';
 
     if (!name || !answer){
-      show('Você deve preencher os dois campos', 'err');
+      show('Você deve preencher todos os campos', 'err');
       return;
     }
 
@@ -34,46 +34,42 @@ export function initRsvp(formId, messageId, buttonId){
     try {
       const resp = await fetch(WEBAPP_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita preflight
+        headers: { 'Content-Type': 'application/json' }, // fala com /api/rsvp (proxy da Vercel)
         body: JSON.stringify({ name, answer })
       });
 
-      const raw = await resp.text();
-      let data;
-      try { data = JSON.parse(raw); } catch (e) {
-        console.error('Resposta do servidor (não-JSON):', raw);
-        show('Erro ao enviar. Verifique o deploy do Apps Script.', 'err');
-        return;
-      }
+      const data = await resp.json().catch(() => ({}));
 
       if (!resp.ok) {
-        console.error('HTTP', resp.status, data);
-        show('Erro ao enviar. Tente novamente.', 'err');
+        // Resposta da API com erro (500/502/…)
+        show(data?.message || 'Erro ao enviar. Tente novamente.', 'err');
         return;
       }
 
+      // Mapeia mensagens do servidor para o UI
       if (data.closed) {
-        show(data.message || 'Prazo de resposta esgotado', 'err');
+        show('O prazo de confirmação esgotou', 'err');
         return;
       }
 
-      if (!data.found) {
-        show('Você não está na lista', 'err');
+      if (!data.ok) {
+        show(data.message || 'Erro ao enviar. Tente novamente.', 'err');
         return;
       }
 
-      if (data.updated) {
-        show('Você já respondeu anteriormente. Resposta atualizada', 'ok');
-      } else if (answer.toLowerCase() === 'sim') {
+      if (data.repeated) {
+        show('Você já havia respondido. Resposta atualizada!', 'ok');
+      } else if (String(answer).toLowerCase() === 'sim') {
         show('Você está confirmado(a)!!', 'ok');
       } else {
-        show('Você não comparecerá, que pena...', 'ok');
+        show('Que pena que você não vai', 'ok');
       }
+
       form.reset();
 
     } catch (err) {
       console.error(err);
-      show('Erro ao enviar. Verifique o deploy do Apps Script.', 'err');
+      show('Erro ao enviar. Tente novamente.', 'err');
     } finally {
       btn.disabled = false;
       btn.textContent = prev;
