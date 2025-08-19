@@ -22,6 +22,7 @@ export function initRsvp(formId, messageId, buttonId){
     const name = form.querySelector('#name')?.value.trim() || '';
     const answer = form.querySelector('input[name="answer"]:checked')?.value || '';
 
+    // Verificação única: ambos preenchidos
     if (!name || !answer){
       show('Você deve preencher os dois campos', 'err');
       return;
@@ -38,16 +39,12 @@ export function initRsvp(formId, messageId, buttonId){
         body: JSON.stringify({ name, answer })
       });
 
-      const raw = await resp.text();
+      const text = await resp.text();
       let data;
-      try { data = JSON.parse(raw); } catch (e) {
-        console.error('Resposta do servidor (não-JSON):', raw);
-        show('Erro ao enviar. Verifique o deploy do Apps Script.', 'err');
-        return;
-      }
+      try { data = JSON.parse(text); }
+      catch { show('Erro ao enviar. Verifique o deploy do Apps Script.', 'err'); return; }
 
       if (!resp.ok) {
-        console.error('HTTP', resp.status, data);
         show('Erro ao enviar. Tente novamente.', 'err');
         return;
       }
@@ -57,22 +54,16 @@ export function initRsvp(formId, messageId, buttonId){
         return;
       }
 
-      if (!data.found) {
-        show('Você não está na lista', 'err');
-        return;
-      }
-
-      if (data.updated) {
-        show('Você já respondeu anteriormente. Resposta atualizada', 'ok');
-      } else if (answer.toLowerCase() === 'sim') {
-        show('Você está confirmado(a)!!', 'ok');
+      if (data.ok) {
+        // Mensagem de sucesso vinda do servidor (já personalizada p/ Sim/Não)
+        show(data.message || 'Resposta registrada com sucesso!', 'ok');
+        form.reset();
       } else {
-        show('Você não comparecerá, que pena...', 'ok');
+        // Falha de validação (ex.: campos vazios)
+        show(data.message || 'Erro ao enviar. Tente novamente.', 'err');
       }
-      form.reset();
 
     } catch (err) {
-      console.error(err);
       show('Erro ao enviar. Verifique o deploy do Apps Script.', 'err');
     } finally {
       btn.disabled = false;
