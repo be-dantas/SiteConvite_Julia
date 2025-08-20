@@ -60,7 +60,7 @@ export function initRsvp(formId, messageId, buttonId){
       if (data.repeated) {
         show('Você já havia respondido. Resposta atualizada!', 'ok');
       } else if (String(answer).toLowerCase() === 'sim') {
-        show('Você está confirmado(a)!!', 'ok');
+        show('Você está confirmado(a)!', 'ok');
       } else {
         show('Que pena que você não vai', 'ok');
       }
